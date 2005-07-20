@@ -1,7 +1,7 @@
 # http://module-build.sourceforge.net/META-spec.html
 #XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#
 name:         XML-SAX-Expat-Incremental
-version:      0.02
+version:      0.04
 version_from: lib/XML/SAX/Expat/Incremental.pm
 installdirs:  site
 requires:
@@ -11,4 +11,4 @@ requires:
     XML::SAX::Expat:               0
 
 distribution_type: module
-generated_by: ExtUtils::MakeMaker version 6.21_02
+generated_by: ExtUtils::MakeMaker version 6.30

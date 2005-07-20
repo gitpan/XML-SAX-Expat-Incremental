@@ -6,7 +6,7 @@ use ExtUtils::MakeMaker;
 WriteMakefile(
     NAME          => 'XML::SAX::Expat::Incremental',
 	VERSION_FROM  => 'lib/XML/SAX/Expat/Incremental.pm',
-	SIGN          => 1,
+	(eval { ExtUtils::MakeMaker->VERSION("6.18") } ? (SIGN          => 1) : ()),
     AUTHOR        => 'Yuval Kogman',
     ABSTRACT      => 'Incremental/non-blocking SAX Driver for Expat',
     PREREQ_PM     => {
@@ -17,6 +17,8 @@ WriteMakefile(
                      },
 );
 
+__END__
+# according to: https://rt.cpan.org/Ticket/Display.html?id=13764 this is broken
 
 ## add ourselves to the list of installed parsers
 sub MY::install {

@@ -7,7 +7,7 @@ use strict;
 #use warnings;
 
 use vars qw/$VERSION/;
-$VERSION = "0.02";
+$VERSION = "0.04";
 
 use XML::Parser ();
 use Carp qw/croak/;
@@ -198,6 +198,12 @@ to worry about it.
 
 This calls parse_done on the underlying XML::Parser::ExpatNB object. You use it
 to tell the parser you have no more data to give it.
+
+=item parse
+
+This is used internally as a sort of parse-anything method. Don't use it,
+instead use C<parse_string>, which invokes this method correctly, and takes
+simpler options.
 
 =back
 
