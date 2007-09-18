@@ -7,15 +7,16 @@ use strict;
 #use warnings;
 
 use vars qw/$VERSION/;
-$VERSION = "0.04";
+$VERSION = "0.05";
 
 use XML::Parser ();
 use Carp qw/croak/;
+use Scalar::Util qw/weaken/;
 
 sub parse {
 	my $p = shift;
 	my $opts = $p->get_options(@_);
-	
+
 	if ($p->{Parent}){
 		return $p->{Parent}->parse($opts);
 	} else {
@@ -37,7 +38,7 @@ sub _parse_string {
 	my $xml = shift;
 
 	$p->parse_start unless $p->{_parsing};
-	
+
 	$p->_expat_obj->parse_more($xml);
 }
 
@@ -47,7 +48,7 @@ sub parse_start {
 
 	croak "Can't parse_start - Already started"
 		if $p->{_parsing};
-	
+
 	$p->{_parsing} = 1;
 
 	$p->_really_create_parser($opt);
@@ -59,7 +60,7 @@ sub parse_done {
 
 	croak "Can't parse_done - Havn't started parsing. Call parse_start or just parse first."
 		unless $p->{_parsing};
-	
+
 	undef $p->{_parsing};
 
 	$p->_expat_obj->parse_done;
@@ -81,12 +82,14 @@ sub _create_parser { # this is defined by XML::SAX::Expat
 sub _expat_obj {
 	my $p = shift;
 	$p->{_expat_nb_obj} = shift if @_;
+	weaken($p->{_expat_nb_obj});
 	$p->{_expat_nb_obj};
 }
 
 sub _parser_obj {
 	my $p = shift;
 	$p->{_xml_parser_obj} = shift if @_;
+	weaken($p->{_xml_parser_obj}{__XSE}); # FIXME should go away
 	$p->{_xml_parser_obj};
 }
 
@@ -210,6 +213,12 @@ simpler options.
 =head1 SEE ALSO
 
 L<XML::Parser>, L<XML::SAX>, L<XML::SAX::Expat>, L<XML::SAX::ExpatNB>
+
+=head1 VERSION CONTROL
+
+This module is maintained using Darcs. You can get the latest version from
+L<http://nothingmuch.woobling.org/XML-SAX-Expat-Incremental/>, and use C<darcs
+send> to commit changes.
 
 =head1 AUTHOR
 
